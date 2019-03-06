@@ -14,13 +14,13 @@ import java.util.List;
 @RestController
 public class AxesorController {
 
-    Storage storage;
+    private Storage storage;
     RestTemplate restTemplate;
 
     List<Television> televisions;
     List<Review> reviews;
 
-    public AxesorController(RestTemplate restTemplate) {
+    public AxesorController(RestTemplate restTemplate, Storage storage) {
         this.storage = storage;
         this.restTemplate = restTemplate;
     }
