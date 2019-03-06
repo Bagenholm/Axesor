@@ -32,7 +32,7 @@ public class AxesorController {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
 
         ResponseEntity<List<Review>> responseEntityReviews =
-                restTemplate.exchange("http://localhost:8080/reviews/",
+                restTemplate.exchange("http://reviews-app/reviews/",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Review>>()
@@ -43,7 +43,7 @@ public class AxesorController {
         System.out.println("Reviews loaded? " + reviews.toString());
 
         ResponseEntity<List<Television>> responseEntityTelevisions =
-                restTemplate.exchange("http://localhost:8080/televisions/",
+                restTemplate.exchange("http://specs-app/televisions/",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Television>>() {
