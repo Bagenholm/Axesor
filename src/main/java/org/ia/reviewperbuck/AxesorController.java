@@ -102,7 +102,6 @@ public class AxesorController {
         public ResponseEntity<Map<String, Object>> getHeader(HttpServletRequest request ) {
 
 
-        System.out.println(request.getHeader("Authorization"));
         Map<String, Object> returnValue = new HashMap<>();
         Enumeration<String> hearderNames = request.getHeaderNames();
         while(hearderNames.hasMoreElements())
