@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class AxesorController {
     }
 
     @GetMapping("/loadinfo")
-    public void getReviewsAndTelevisions() {
+    public List<Axesor> getReviewsAndTelevisions() {
 
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
@@ -42,8 +43,6 @@ public class AxesorController {
 
         reviews = responseEntityReviews.getBody();
 
-        System.out.println("Reviews loaded? " + reviews.toString());
-
         ResponseEntity<List<Television>> responseEntityTelevisions =
                 restTemplate.exchange("http://specs-app/televisions/",
                         HttpMethod.GET,
@@ -53,36 +52,41 @@ public class AxesorController {
 
         televisions = responseEntityTelevisions.getBody();
 
-        System.out.println("Televisions loaded? " + televisions.toString());
-
-        combineLists();
+        return combineLists();
 
     }
 
-    private void combineLists() {
+    private List<Axesor> combineLists() {
         List<Axesor> axesors = reviews.stream()
                 .map( review -> new Axesor(review.getModel(), review.getRating()))
                 .collect(Collectors.toList());
 
         for ( Axesor a : axesors ) {
             for ( Television t : televisions) {
+                System.out.println("This is television: " + t.toString());
                 if (a.getModel().equals(t.getModel())) {
                     a.setSpecs(t.getSpecs());
                     a.setPrice(t.getPrice());
+                    System.out.println("This is axesor: " + a.toString());
                 }
             }
         }
 
         storage.saveAll(axesors);
 
-        System.out.println(storage.toString());
+        return storage.findAll();
     }
 
-    @GetMapping("/value")
+    @GetMapping("/ratingprice")
     public List<Axesor> getValue() {
-        storage.findAll().sort( (Axesor a1, Axesor a2 ) -> (int) a1.getPricePerRating() - (int) a2.getPricePerRating() );
 
-        return storage.findAll();
+        return storage.findAll().stream().sorted( Comparator.comparing( Axesor::getPricePerRating ) ).collect(Collectors.toList());
+    }
+
+    @GetMapping("/ratingpriceinch")
+    public List<Axesor> getRatingPriceInch() {
+
+        return storage.findAll().stream().sorted( Comparator.comparing( Axesor::getPricePerRatingPerInch ) ).collect(Collectors.toList());
     }
 
     @GetMapping("/axesors")

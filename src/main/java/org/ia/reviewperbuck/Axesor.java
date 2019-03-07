@@ -28,4 +28,8 @@ public class Axesor {
     public float getPricePerRating() {
         return price / rating;
     }
+
+    public float getPricePerRatingPerInch() {
+        return getPricePerRating() / getSpecs().size();
+    }
 }
