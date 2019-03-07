@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class AxesorController {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
 
         ResponseEntity<List<Review>> responseEntityReviews =
-                restTemplate.exchange("http://reviews-app/reviews/",
+                restTemplate.exchange("http://review-app/reviews/",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Review>>()
@@ -64,12 +65,24 @@ public class AxesorController {
                 .collect(Collectors.toList());
 
         for ( Axesor a : axesors ) {
-            a.setSpecs(
-                    televisions.stream().filter( television -> a.getModel() == television.getModel())
-                            .findFirst().get().getSpecs() );
+            for ( Television t : televisions) {
+                if (a.getModel().equals(t.getModel())) {
+                    a.setSpecs(t.getSpecs());
+                    a.setPrice(t.getPrice());
+                }
+            }
         }
 
-        System.out.println(axesors.toString());
+        storage.saveAll(axesors);
+
+        System.out.println(storage.toString());
+    }
+
+    @GetMapping("/value")
+    public List<Axesor> getValue() {
+        storage.findAll().sort( (Axesor a1, Axesor a2 ) -> (int) a1.getPricePerRating() - (int) a2.getPricePerRating() );
+
+        return storage.findAll();
     }
 
     @GetMapping("/axesors")
