@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AxesorController {
@@ -53,14 +54,23 @@ public class AxesorController {
 
         System.out.println("Televisions loaded? " + televisions.toString());
 
-        //combineLists();
+        combineLists();
 
     }
 
-//    private void combineLists() {
-//        televisions.stream().map( t () -> );
-//
-//    }
+    private void combineLists() {
+        List<Axesor> axesors = reviews.stream()
+                .map( review -> new Axesor(review.getModel(), review.getRating()))
+                .collect(Collectors.toList());
+
+        for ( Axesor a : axesors ) {
+            a.setSpecs(
+                    televisions.stream().filter( television -> a.getModel() == television.getModel())
+                            .findFirst().get().getSpecs() );
+        }
+
+        System.out.println(axesors.toString());
+    }
 
     @GetMapping("/axesors")
     public List<Axesor> getAll() {

@@ -11,6 +11,13 @@ import java.util.HashMap;
 @Entity
 public class Axesor {
 
+    public Axesor() {    }
+
+    public Axesor(String model, Float rating) {
+        this.model = model;
+        this.rating = rating;
+    }
+
 
     private @Id @GeneratedValue long id;
     private String model;
