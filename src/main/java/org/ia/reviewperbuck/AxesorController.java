@@ -68,11 +68,9 @@ public class AxesorController {
 
         for ( Axesor a : axesors ) {
             for ( Television t : televisions) {
-                System.out.println("This is television: " + t.toString());
                 if (a.getModel().equals(t.getModel())) {
                     a.setSpecs(t.getSpecs());
                     a.setPrice(t.getPrice());
-                    System.out.println("This is axesor: " + a.toString());
                 }
             }
         }
