@@ -1,6 +1,5 @@
 package org.ia.reviewperbuck;
 
-import com.netflix.ribbon.proxy.annotation.Http;
 import org.springframework.http.*;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
