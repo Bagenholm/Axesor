@@ -12,5 +12,6 @@ public class Television {
     private Long id;
     private String model;
     private HashMap<String, String> specs;
+    private float price;
 
 }
