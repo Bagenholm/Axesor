@@ -39,7 +39,7 @@ public class AxesorController {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
 
         ResponseEntity<List<Review>> responseEntityReviews =
-                restTemplate.exchange("http://reviewservice-env.caek9ifkft.us-east-2.elasticbeanstalk.com//reviews/",
+                restTemplate.exchange("http://reviewservice-env.caek9ifkft.us-east-2.elasticbeanstalk.com/reviews/",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Review>>()
@@ -48,7 +48,7 @@ public class AxesorController {
         reviews = responseEntityReviews.getBody();
 
         ResponseEntity<List<Television>> responseEntityTelevisions =
-                restTemplate.exchange("http://SpecsApp-env.msi9z25375.us-east-2.elasticbeanstalk.com/",
+                restTemplate.exchange("http://SpecsApp-env.msi9z25375.us-east-2.elasticbeanstalk.com/televisions",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Television>>() {
@@ -98,7 +98,7 @@ public class AxesorController {
         HttpEntity<?> httpEntity = new HttpEntity<Object>(headers);
 
         ResponseEntity<List<Review>> responseEntityReviews =
-                restTemplate.exchange("http://reviewservice-env.caek9ifkft.us-east-2.elasticbeanstalk.com//manyreviews/",
+                restTemplate.exchange("http://reviewservice-env.caek9ifkft.us-east-2.elasticbeanstalk.com/manyreviews/",
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<List<Review>>()
